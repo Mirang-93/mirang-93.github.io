@@ -4,38 +4,327 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>함께지음 사용 가이드</title>
-<style>:root{color-scheme:light dark}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.7;background:Canvas;color:CanvasText;word-break:keep-all}main{max-width:480px;margin:0 auto;padding:40px 16px}h2{margin-top:48px;color:#c4573f}img{display:block;width:100%;height:auto;margin:16px 0;border-radius:16px}a{color:#c4573f}nav ol{padding-left:20px}</style>
+<style>
+:root{color-scheme:light dark;--accent:#c4573f;--soft:#fff4ee;--line:#ead8cf}
+@media (prefers-color-scheme:dark){:root{--soft:#2a2320;--line:#4a3a33}}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.75;background:Canvas;color:CanvasText;word-break:keep-all}
+main{max-width:560px;margin:0 auto;padding:40px 16px 80px}
+h1{margin-bottom:8px}
+h2{margin:72px 0 8px;padding-top:16px;border-top:3px solid var(--accent);color:var(--accent)}
+h3{margin:40px 0 4px}
+img{display:block;width:100%;max-width:400px;height:auto;margin:16px auto;border-radius:16px}
+a{color:var(--accent)}
+nav{background:var(--soft);border-radius:16px;padding:16px 20px;margin:24px 0}
+nav ol{margin:0;padding-left:20px}nav ol ol{padding-left:16px;font-size:.95em}
+.tip{background:var(--soft);border-left:4px solid var(--accent);border-radius:8px;padding:10px 14px;margin:16px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0}td,th{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+.top{display:block;text-align:right;font-size:.9em;margin-top:24px}
+</style>
 </head>
 <body><main>
-<!-- 원고: CareLink 저장소 docs/usage_guide/index.html. 카드와 함께 그대로 복사해 게시한다. -->
-<h1>함께지음 사용 가이드</h1>
-<p>처음 쓰는 분을 위해 화면마다 어디를 누르면 되는지 정리했어요. 화면은 예시 데이터로 찍었어요.</p>
-<nav><ol>
-<li><a href="#s1">처음 시작</a></li>
-<li><a href="#s2">돌봄 기록·기도제목</a></li>
-<li><a href="#s3">모임·출석·보고서</a></li>
-<li><a href="#s4">백업·기기 옮기기</a></li>
+<!-- 원고: CareLink 저장소 docs/usage_guide/index.html. 카드와 함께 그대로 복사해 게시한다.
+     차례는 test/usage_guide_test.dart 의 카드 순서(앱 아래 탭 순서)와 같아야 한다. -->
+<h1 id="top">함께지음 사용 가이드</h1>
+<p>함께지음은 순원·팀원을 돌보는 리더를 위한 기록 앱이에요. 앱 아래에 있는 다섯 개의 탭 순서대로 모든 기능을 정리했어요. 처음이라면 <a href="#start">시작하기</a>부터 차례로 읽어 보세요.</p>
+<p class="tip">화면은 예시 데이터로 찍었어요. 공간 유형에 따라 '순원·순모임'이 '팀원·팀모임', '부서원·부서 모임'처럼 바뀌어 보여요. 이 가이드는 '순' 공간을 기준으로 썼어요.</p>
+
+<nav aria-label="목차"><strong>목차</strong>
+<ol>
+<li><a href="#start">시작하기</a>
+  <ol><li><a href="#start-space">공간 만들기</a></li><li><a href="#start-form">공간 이름과 유형</a></li><li><a href="#start-switch">공간 바꾸기·수정·삭제</a></li></ol></li>
+<li><a href="#home">홈</a>
+  <ol><li><a href="#home-today">오늘의 돌봄</a></li><li><a href="#home-more">다음 모임·생일·최근 활동</a></li></ol></li>
+<li><a href="#members">순원 탭</a>
+  <ol><li><a href="#members-add">순원 추가</a></li><li><a href="#members-form">순원 정보 입력</a></li><li><a href="#members-search">순원 찾기</a></li><li><a href="#members-care">돌봄 기록</a></li><li><a href="#members-follow">다음에 물어볼 것</a></li><li><a href="#members-prayer">기도제목</a></li><li><a href="#members-menu">수정·보관·삭제</a></li></ol></li>
+<li><a href="#meetings">순모임 탭</a>
+  <ol><li><a href="#meetings-add">순모임 추가</a></li><li><a href="#meetings-record">출석과 나눔 기록</a></li><li><a href="#meetings-detail">지난 모임 보기·고치기</a></li><li><a href="#meetings-calendar">달력과 심방 예정</a></li></ol></li>
+<li><a href="#notifications">알림 탭</a>
+  <ol><li><a href="#notifications-list">확인할 일 모아 보기</a></li><li><a href="#notifications-detail">알림에서 바로 기록하기</a></li></ol></li>
+<li><a href="#settings">설정 탭</a>
+  <ol><li><a href="#settings-alarm">알림·화면·통계 설정</a></li><li><a href="#settings-report">순모임 보고서 PDF</a></li><li><a href="#settings-report-pick">보고서 내용 고르기</a></li><li><a href="#settings-prayer">기도제목 PDF</a></li><li><a href="#settings-backup">백업이 필요한 이유</a></li><li><a href="#settings-export">백업 파일 내보내기</a></li><li><a href="#settings-restore">새 폰에서 가져오기</a></li><li><a href="#settings-lock">앱 잠금과 개인정보</a></li><li><a href="#settings-info">앱 정보</a></li></ol></li>
+<li><a href="#faq">자주 묻는 질문</a></li>
 </ol></nav>
-<h2 id="s1">1. 처음 시작</h2>
+
+<!-- 시작하기 ------------------------------------------------------- -->
+<h2 id="start">1. 시작하기</h2>
+<p>함께지음은 '공간' 단위로 기록을 나눠요. 순장이면서 찬양팀도 섬긴다면 공간을 두 개 만들면 돼요. 공간끼리는 순원도 기록도 섞이지 않아요.</p>
+
+<h3 id="start-space">공간 만들기</h3>
 <img src="cards/01_create_space.png" width="1080" height="2340" loading="lazy" alt="먼저 공간을 만들어요. 공간은 내가 돌보는 모임 하나예요. 순, 사역팀, 부서처럼 모임마다 따로 만들 수 있어요.">
-<img src="cards/02_space_form.png" width="1080" height="2340" loading="lazy" alt="이름과 유형을 고르면 끝. 유형에 따라 순원·팀원처럼 앱 안의 말이 바뀌어요. 처음이면 &#x27;예시 내용 채우기&#x27;를 켜고 연습해 보세요.">
-<img src="cards/03_add_member.png" width="1080" height="2340" loading="lazy" alt="순원을 추가해요. 아래 &#x27;순원&#x27; 탭에서 오른쪽 위 + 를 눌러요.">
-<img src="cards/04_member_form.png" width="1080" height="2340" loading="lazy" alt="이름만 있어도 돼요. 연락처와 생일은 아는 만큼만 넣어요. 생일을 넣으면 생일 알림이 와요.">
-<h2 id="s2">2. 돌봄 기록·기도제목</h2>
-<img src="cards/05_care_record.png" width="1080" height="2340" loading="lazy" alt="연락하거나 만난 일을 남겨요. 순원을 누르고 &#x27;돌봄 기록&#x27;을 눌러요.">
-<img src="cards/06_follow_up.png" width="1080" height="2340" loading="lazy" alt="다음에 물어볼 것을 적어 두세요. 확인 예정일까지 고르면 그날 알림이 와요. 다음 연락 때 잊지 않고 안부를 이어 갈 수 있어요.">
-<img src="cards/07_prayer.png" width="1080" height="2340" loading="lazy" alt="기도제목도 순원별로. &#x27;기도제목&#x27;을 눌러 적어요. 응답되면 상태를 &#x27;응답됨&#x27;으로 바꿔 두면 함께 감사할 수 있어요.">
-<img src="cards/08_home.png" width="1080" height="2340" loading="lazy" alt="오늘 챙길 것은 홈에서. 확인할 날이 된 일과 다가오는 생일이 홈에 모여요. 앱을 열면 여기부터 보면 돼요.">
-<h2 id="s3">3. 모임·출석·보고서</h2>
-<img src="cards/09_add_meeting.png" width="1080" height="2340" loading="lazy" alt="모임을 마치면 순모임 추가. 아래 &#x27;순모임&#x27; 탭에서 + 를 눌러 날짜와 말씀을 적고 &#x27;저장하고 순원 기록&#x27;을 눌러요.">
-<img src="cards/10_attendance.png" width="1080" height="2340" loading="lazy" alt="순원마다 출석과 나눔을 적어요. 출석을 고르고, 순원을 누르면 그날 나눈 이야기를 남길 수 있어요. 다 적었으면 &#x27;기록 완료&#x27;.">
-<img src="cards/11_calendar.png" width="1080" height="2340" loading="lazy" alt="심방 약속은 달력에. &#x27;순모임&#x27; 탭의 &#x27;달력&#x27;에서 날짜를 눌러 심방 예정을 잡아 두세요.">
-<img src="cards/12_report.png" width="1080" height="2340" loading="lazy" alt="보고서는 PDF로 한 번에. &#x27;설정&#x27;에서 순모임 보고서나 기도제목을 PDF로 만들어 간사님께 보내거나 순원들과 나눠요.">
-<img src="cards/13_report_pick.png" width="1080" height="2340" loading="lazy" alt="넣을 내용만 골라요. 주를 옮겨 고르고, 빼고 싶은 항목은 체크를 풀어요. 체크를 푼 내용은 PDF에 들어가지 않아요.">
-<h2 id="s4">4. 백업·기기 옮기기</h2>
-<img src="cards/14_backup.png" width="1080" height="2340" loading="lazy" alt="기록은 내 폰에만 있어요. 서버에 따로 저장되지 않아요. 폰을 잃어버리면 기록도 사라지니 가끔 백업해 두세요.">
-<img src="cards/15_backup_export.png" width="1080" height="2340" loading="lazy" alt="백업 파일을 내보내요. &#x27;비밀번호로 잠그기&#x27;를 고르면 파일을 열 때 비밀번호가 필요해요. 카톡 나와의 채팅이나 드라이브에 보관하세요.">
-<img src="cards/16_backup_restore.png" width="1080" height="2340" loading="lazy" alt="새 폰에서는 가져오기. 새 폰에 앱을 깔고 설정 → 백업 및 복원 → &#x27;백업 파일 가져오기&#x27;. 그 폰에 있던 기록은 백업 내용으로 바뀌어요.">
-<p>더 궁금한 점은 <a href="mailto:wnshroqkf@naver.com">wnshroqkf@naver.com</a> 으로 물어봐 주세요.</p>
+<p>앱을 처음 열면 공간 선택 화면이 나와요. <b>공간 만들기</b>를 눌러 첫 공간을 만들어요.</p>
+
+<h3 id="start-form">공간 이름과 유형</h3>
+<img src="cards/02_space_form.png" width="1080" height="2340" loading="lazy" alt="이름과 유형을 고르면 끝. 유형에 따라 순원·팀원처럼 앱 안의 말이 바뀌어요. 처음이면 '예시 내용 채우기'를 켜고 연습해 보세요.">
+<ul>
+<li><b>이름</b>: 예) 청년 3순, 찬양팀, 새가족부</li>
+<li><b>유형</b>: 순 · 사역팀 · 부서 · 기타 중에서 골라요. 유형에 따라 앱 안의 말이 바뀌어요.</li>
+</ul>
+<table>
+<tr><th>유형</th><th>구성원</th><th>모임</th></tr>
+<tr><td>순</td><td>순원</td><td>순모임</td></tr>
+<tr><td>사역팀</td><td>팀원</td><td>팀모임</td></tr>
+<tr><td>부서</td><td>부서원</td><td>부서 모임</td></tr>
+<tr><td>기타</td><td>구성원</td><td>모임</td></tr>
+</table>
+<ul>
+<li><b>목적</b>(선택): 이 공간에서 함께 돌볼 방향을 적어 두는 칸이에요.</li>
+<li><b>예시 내용 채우기</b>: 켜면 연습용 순원과 기록이 들어가요. 써 보고 익숙해지면 그 공간을 지우고 새로 만드세요.</li>
+</ul>
+
+<h3 id="start-switch">공간 바꾸기·수정·삭제</h3>
+<img src="cards/03_spaces.png" width="1080" height="2340" loading="lazy" alt="공간은 언제든 바꿔요. 홈 위쪽 공간 이름을 누르면 목록이 떠요. 공간을 누르면 바뀌고, 오른쪽 점 세 개에서 수정·삭제 잠금을 해요.">
+<ul>
+<li><b>바꾸기</b>: 홈 위쪽의 공간 이름(⇄ 표시)이나 다른 탭 오른쪽 위 ⇄ 를 누르면 공간 목록이 떠요. 원하는 공간을 누르면 바로 바뀌어요.</li>
+<li><b>수정</b>: 공간 오른쪽 점 세 개 → <b>수정</b>에서 이름·유형·목적을 고쳐요.</li>
+<li><b>삭제 잠금</b>: 실수로 지우지 않도록 잠가 둘 수 있어요. 잠긴 공간은 잠금을 풀어야 삭제돼요.</li>
+<li><b>삭제</b>: 그 공간의 구성원, 돌봄 기록, 기도제목, 모임, 출석 기록이 모두 함께 지워지고 되돌릴 수 없어요. 지우기 전에 <a href="#settings-export">백업</a>을 먼저 해 두세요.</li>
+</ul>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- 홈 ------------------------------------------------------------- -->
+<h2 id="home">2. 홈</h2>
+<p>앱을 열면 가장 먼저 보이는 화면이에요. 오늘 챙길 사람과 일이 모여 있어요.</p>
+
+<h3 id="home-today">오늘의 돌봄</h3>
+<img src="cards/04_home.png" width="1080" height="2340" loading="lazy" alt="오늘 챙길 것은 홈에서. 확인할 날이 된 일과 기도제목이 홈에 모여요. 앱을 열면 여기부터 보면 돼요.">
+<ul>
+<li><b>맨 위 줄</b>: 지금 공간 이름, 순원 수, 확인할 일 수가 보여요. 공간 이름을 누르면 공간을 바꿀 수 있고, 오른쪽 위 종을 누르면 <a href="#notifications">알림 탭</a>으로 가요.</li>
+<li><b>바로가기 세 칸</b>: 순원 → 순원 탭, 기도 → 알림 탭의 기도제목만, 순모임 → 순모임 탭으로 가요.</li>
+<li><b>오늘의 돌봄</b>
+  <ul>
+  <li><b>오늘 확인할 순원</b>: 확인 예정일이 된 '다음에 물어볼 것'이 있거나, 오래 연락하지 못한 순원이에요. 며칠을 '오래'로 볼지는 <a href="#settings-alarm">연락 리마인더</a>에서 정해요.</li>
+  <li><b>확인할 기도제목</b>: 확인 예정일이 된 기도제목이에요.</li>
+  <li><b>전체 보기</b>를 누르면 알림 탭에서 전부 볼 수 있어요.</li>
+  </ul></li>
+</ul>
+<p>아직 기록이 하나도 없으면 '첫 기록을 시작해 볼까요?' 안내와 함께 순원 추가·순모임 추가 버튼이 보여요.</p>
+
+<h3 id="home-more">다음 모임·생일·최근 활동</h3>
+<img src="cards/05_home_recent.png" width="1080" height="2340" loading="lazy" alt="다음 모임과 최근 활동. 홈을 내리면 다음 순모임, 다가오는 생일, 최근 활동 수가 보여요.">
+<ul>
+<li><b>다가오는 생일</b>: 생일이 가까운 순원과 나이가 보여요.</li>
+<li><b>다음 순모임</b>: 날짜가 앞으로인 모임 중 가장 가까운 것이에요. 누르면 그 모임으로 가요.</li>
+<li><b>최근 활동</b>: 최근 며칠 동안 남긴 기록, 돌봄 기록, 응답된 기도제목 수예요. 기간(7·30·90일)은 <a href="#settings-alarm">통계 기준</a>에서 바꿔요.</li>
+<li><b>백업 안내</b>: 기록이 이 폰에만 있다는 안내가 함께 보여요. 누르면 백업 화면으로 가요.</li>
+</ul>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- 순원 탭 ---------------------------------------------------------- -->
+<h2 id="members">3. 순원 탭</h2>
+<p>순원 한 사람 한 사람의 정보와 돌봄 기록, 기도제목을 모아 두는 곳이에요.</p>
+
+<h3 id="members-add">순원 추가</h3>
+<img src="cards/06_add_member.png" width="1080" height="2340" loading="lazy" alt="순원을 추가해요. 아래 '순원' 탭에서 오른쪽 위 + 를 눌러요.">
+<p>처음 순원을 추가할 때 '기록하기 전에' 안내가 한 번 떠요. 순원의 이름·연락처·생일과 앞으로 쌓일 기록이 이 폰에 저장된다는 내용이에요. 순원 본인에게 알리고 동의를 받아 주세요. 이 안내는 설정 → 보안과 개인정보 → 개인정보 안내에서 다시 볼 수 있어요.</p>
+
+<h3 id="members-form">순원 정보 입력</h3>
+<img src="cards/07_member_form.png" width="1080" height="2340" loading="lazy" alt="이름만 있어도 돼요. 연락처와 생일은 아는 만큼만 넣어요. 생일을 넣으면 생일 알림이 와요.">
+<ul>
+<li><b>이름</b>(필수)</li>
+<li><b>연락처</b>(선택)</li>
+<li><b>생일</b>(선택): 넣으면 생일에 알림이 와요. 생일을 모르면 <b>나이</b>만 적어도 돼요. 해가 바뀌면 나이는 저절로 올라가요.</li>
+<li><b>등록일</b>: 순에 들어온 날이에요. 기본은 오늘이에요.</li>
+<li><b>메모</b>: 짧게 기억해 둘 것을 적어요.</li>
+</ul>
+
+<h3 id="members-search">순원 찾기</h3>
+<img src="cards/08_member_search.png" width="1080" height="2340" loading="lazy" alt="이름이나 연락처로 찾아요. 보관한 순원은 '보관 포함'을 켜야 목록에 보여요.">
+<p>위쪽 검색창에 이름이나 전화번호 일부를 넣으면 바로 걸러져요. 목록에는 지금 활동 중인 순원만 보여요. <a href="#members-menu">보관</a>한 순원까지 보려면 <b>보관 포함</b>을 켜세요. 보관한 순원에게는 '보관' 표시가 붙어요.</p>
+
+<h3 id="members-care">돌봄 기록</h3>
+<img src="cards/09_care_record.png" width="1080" height="2340" loading="lazy" alt="연락하거나 만난 일을 남겨요. 순원을 누르고 '돌봄 기록'을 눌러요.">
+<p>순원을 누르면 상세 화면이 열려요. 위쪽에서 돌봄 기록 수, 확인 예정 수, 기도 중인 기도제목 수와 순모임 참석 현황(출석 기록 수·참석·참석률)을 볼 수 있어요.</p>
+<p><b>+ 돌봄 기록</b>을 누르고 아래를 적어요.</p>
+<ul>
+<li><b>유형</b>: 전화 통화 · 메시지 · 만남 · 심방 · 기타</li>
+<li><b>기록일</b>: 연락하거나 만난 날</li>
+<li><b>메모</b>: 나눈 내용이나 상황을 짧게</li>
+</ul>
+<p>저장한 기록은 상세 화면 아래 '돌봄 기록'에 쌓여요. 기록을 눌러 고치거나 지울 수 있어요.</p>
+
+<h3 id="members-follow">다음에 물어볼 것</h3>
+<img src="cards/10_follow_up.png" width="1080" height="2340" loading="lazy" alt="다음에 물어볼 것을 적어 두세요. 확인 예정일까지 고르면 그날 알림이 와요. 다음 연락 때 잊지 않고 안부를 이어 갈 수 있어요.">
+<p>돌봄 기록 아래쪽의 <b>다음에 물어볼 것</b>에 질문을 적고 <b>확인 예정일</b>을 고르면, 그날 폰 알림이 오고 홈의 '오늘 확인할 순원'과 <a href="#notifications">알림 탭</a>에 올라와요.</p>
+<p>예) "면접 결과는 어떻게 되었나요?" · 확인 예정일 다음 주 월요일</p>
+<p>답을 들었으면 그 기록을 다시 열어 <b>확인 결과</b>에 적거나, 알림 탭에서 바로 <a href="#notifications-detail">확인 완료</a>로 처리해요.</p>
+
+<h3 id="members-prayer">기도제목</h3>
+<img src="cards/11_prayer.png" width="1080" height="2340" loading="lazy" alt="기도제목도 순원별로. '기도제목'을 눌러 적어요. 응답되면 상태를 '응답'으로 바꿔 두면 함께 감사할 수 있어요.">
+<ul>
+<li><b>기도제목</b>: 함께 기도할 제목</li>
+<li><b>메모</b>: 상황이나 함께 기도할 내용</li>
+<li><b>상태</b>: 기도 중 · 변화 있음 · 응답</li>
+</ul>
+<p>상세 화면의 기도제목 목록에서 상태 단추를 누르면 바로 바꿀 수 있어요. '응답'으로 바꾼 기도제목은 홈의 최근 활동에 '응답된 기도제목'으로 세어져요. 순모임 기록 중에 적은 기도제목도 여기 함께 모여요.</p>
+
+<h3 id="members-menu">수정·보관·삭제</h3>
+<img src="cards/12_member_menu.png" width="1080" height="2340" loading="lazy" alt="쉬는 순원은 보관해요. 오른쪽 위 점 세 개에서 '보관'하면 목록과 출석에서 빠지고 기록은 남아요. '삭제'는 기록까지 지워요.">
+<ul>
+<li><b>수정</b>: 상세 화면 오른쪽 위 연필을 눌러 이름·연락처·생일 등을 고쳐요.</li>
+<li><b>보관</b>: 이사·휴학 등으로 쉬는 순원은 보관해요. 목록과 순모임 출석에서 빠지지만 기록은 그대로 남아요. 다시 오면 <b>보관 해제</b>를 눌러요.</li>
+<li><b>삭제</b>: 그 순원과 연결된 돌봄 기록, 기도제목, 출석 기록, 모임별 기록이 모두 지워지고 되돌릴 수 없어요. 본인이 지워 달라고 했을 때 쓰세요.</li>
+</ul>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- 순모임 탭 -------------------------------------------------------- -->
+<h2 id="meetings">4. 순모임 탭</h2>
+<p>모임마다 말씀, 나눔, 출석을 남기고, 심방 약속을 달력에 잡는 곳이에요. 위쪽에서 <b>목록</b>과 <b>달력</b>을 바꿔 볼 수 있고, 검색창에서 제목·장소·말씀으로 찾을 수 있어요.</p>
+
+<h3 id="meetings-add">순모임 추가</h3>
+<img src="cards/13_add_meeting.png" width="1080" height="2340" loading="lazy" alt="모임을 마치면 순모임 추가. 아래 '순모임' 탭에서 + 를 눌러 날짜와 말씀을 적고 '저장하고 순원 기록'을 눌러요.">
+<ul>
+<li><b>모임 제목</b>: 예) 요한복음 15장</li>
+<li><b>날짜·시간</b>, <b>장소</b>: 예) 모임실</li>
+<li><b>본문</b>: 예) 요한복음 15:4-5</li>
+<li><b>나눔 메모</b>: 함께 나눈 핵심 내용</li>
+<li><b>다음 모임 메모</b>: 다음 모임 준비나 공지</li>
+</ul>
+<p><b>저장하고 순원 기록</b>을 누르면 바로 출석과 나눔을 적는 화면으로 넘어가요. 날짜를 앞으로 잡으면 홈의 '다음 순모임'에 보여요.</p>
+
+<h3 id="meetings-record">출석과 나눔 기록</h3>
+<img src="cards/14_attendance.png" width="1080" height="2340" loading="lazy" alt="순원마다 출석과 나눔을 적어요. 출석을 고르고, 순원을 누르면 그날 나눈 이야기를 남길 수 있어요. 다 적었으면 '기록 완료'.">
+<ul>
+<li><b>출석</b>: 참석 · 온라인 · 결석 · 미입력. 참석과 온라인은 참석률에 '참석'으로 세고, 미입력은 참석률 계산에서 빠져요.</li>
+<li><b>예배</b>: 순모임 출석 옆에서 그 주 예배 출석도 같은 방식으로 따로 골라요.</li>
+<li><b>순원별 기록</b>: 순원을 누르면 그날 나눈 이야기, <b>기도제목</b>(여러 개 추가 가능)과 기도 확인 예정일, <b>다음에 물어볼 것</b>과 확인 예정일을 적을 수 있어요. 여기 적은 기도제목은 순원의 기도제목 목록에도 들어가요.</li>
+</ul>
+<p>다 적었으면 <b>기록 완료</b>. 바쁘면 <b>나중에 하기</b>로 나가고, 나중에 모임 화면에서 이어 적어요.</p>
+
+<h3 id="meetings-detail">지난 모임 보기·고치기</h3>
+<img src="cards/15_meeting_detail.png" width="1080" height="2340" loading="lazy" alt="지난 모임도 다시 열어요. 모임을 누르면 출석과 순원별 기록이 보여요. 빠진 기록은 '순원 기록 계속하기'로 이어 적어요.">
+<ul>
+<li>목록에서 모임을 누르면 모임 정보, 출석, 순원별 기록이 보여요.</li>
+<li><b>순원 기록 계속하기</b>: 빠진 순원의 기록을 이어 적어요. 순원 카드의 연필을 누르면 그 순원 기록만 고칠 수 있어요.</li>
+<li>오른쪽 위 <b>연필</b>: 모임 제목·날짜·말씀 등을 고쳐요.</li>
+<li>오른쪽 위 <b>점 세 개</b>: <b>순모임 보고서</b>(이 모임으로 <a href="#settings-report">보고서 PDF</a> 만들기)와 <b>삭제</b>가 있어요. 삭제하면 그 모임의 출석과 순원별 기록도 함께 지워져요.</li>
+</ul>
+
+<h3 id="meetings-calendar">달력과 심방 예정</h3>
+<img src="cards/16_calendar.png" width="1080" height="2340" loading="lazy" alt="심방 약속은 달력에. '순모임' 탭의 '달력'에서 날짜를 눌러 심방 예정을 잡아 두세요.">
+<p>달력에서는 날짜별로 모임과 심방 예정이 점으로 표시돼요. 날짜를 누르면 그날 일정이 아래에 보이고, <b>이 날에 추가</b>를 누르면 두 가지 중에서 고를 수 있어요.</p>
+<ul>
+<li><b>순모임 추가</b>: 정기 모임, 아웃팅처럼 함께 모이는 일</li>
+<li><b>심방 예정 추가</b>: 순원 한 명을 만나기로 한 날. 누구를 만나는지, 만나는 날, 메모(어디서 만나는지, 무엇을 나눌지)를 적어요.</li>
+</ul>
+<p>심방 예정은 그 순원의 돌봄 기록에 '심방'으로 남아요.</p>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- 알림 탭 ---------------------------------------------------------- -->
+<h2 id="notifications">5. 알림 탭</h2>
+<p>확인할 날이 정해진 일들이 한곳에 모여요. 폰 알림을 놓쳤어도 여기서 다시 볼 수 있어요.</p>
+
+<h3 id="notifications-list">확인할 일 모아 보기</h3>
+<img src="cards/17_notifications.png" width="1080" height="2340" loading="lazy" alt="확인할 일을 모아 봐요. 다음에 물어볼 것, 기도제목, 오래 연락 못 한 순원, 다가오는 모임이 여기 모여요.">
+<p>여기 올라오는 것은 네 가지예요.</p>
+<ul>
+<li><b>돌봄 확인</b>: 돌봄 기록에 적은 '다음에 물어볼 것'</li>
+<li><b>기도제목 확인</b>: 확인 예정일을 정한 기도제목</li>
+<li><b>연락 확인</b>: 연락 리마인더 기간 동안 연락 기록이 없는 순원 (새로 등록한 순원은 등록일부터 세요)</li>
+<li><b>다가오는 순모임</b></li>
+</ul>
+<p>위쪽 단추로 <b>전체 · 확인 예정 · 돌봄 · 기도 · 순모임</b>만 골라 보고, 검색창에서 제목·순원 이름·내용으로 찾을 수 있어요.</p>
+
+<h3 id="notifications-detail">알림에서 바로 기록하기</h3>
+<img src="cards/18_notification_detail.png" width="1080" height="2340" loading="lazy" alt="물어본 것의 답을 바로 적어요. 알림을 누르면 답을 적고 '확인 완료'하거나, 다음 확인 예정일을 다시 잡을 수 있어요.">
+<ul>
+<li><b>확인 결과</b>에 들은 답을 적고 <b>저장</b>하거나 <b>확인 완료</b>를 누르면 목록에서 내려가요.</li>
+<li>아직 못 물어봤다면 <b>다음 확인 예정일</b>을 다시 골라 미뤄요. × 를 누르면 예정일을 지워요.</li>
+<li>기도제목 알림은 기도 상태를 바꾸거나 <b>완료 처리</b>할 수 있어요.</li>
+<li>연락 확인 알림에는 <b>돌봄 기록 추가</b>가 있어 연락한 내용을 바로 남겨요.</li>
+<li><b>상세 보기</b>를 누르면 그 순원의 상세 화면으로 가요.</li>
+</ul>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- 설정 탭 ---------------------------------------------------------- -->
+<h2 id="settings">6. 설정 탭</h2>
+<p>알림, 화면, 보고서, 백업, 잠금을 다루는 곳이에요. 위에서부터 차례로 설명할게요.</p>
+
+<h3 id="settings-alarm">알림·화면·통계 설정</h3>
+<img src="cards/19_settings.png" width="1080" height="2340" loading="lazy" alt="알림과 화면은 설정에서. 알림을 켜고, 연락이 뜸한 순원을 며칠 뒤에 알려 줄지 정해요. 화면 색도 고를 수 있어요.">
+<ul>
+<li><b>알림 설정</b>: 생일과 확인 예정일 알림을 켜고 꺼요. '알림이 꺼져 있어요'가 보이면 폰 설정 → 알림에서 함께지음을 켜 주세요.</li>
+<li><b>테스트 알림</b>: 알림이 잘 오는지 바로 확인해요.</li>
+<li><b>연락 리마인더</b>: 7 · 14 · 21 · 30일 중에서 골라요. 이 기간 동안 돌봄 기록이 없는 순원을 '연락 확인'으로 알려 줘요.</li>
+<li><b>화면 꾸미기</b>: 따뜻한 코랄 · 차분한 라벤더 · 옐로·네이비 중 색을 골라요.</li>
+<li><b>통계 기준</b>: 홈 '최근 활동'을 7 · 30 · 90일 중 몇 일 동안으로 셀지 정해요.</li>
+</ul>
+
+<h3 id="settings-report">순모임 보고서 PDF</h3>
+<img src="cards/20_report.png" width="1080" height="2340" loading="lazy" alt="보고서는 PDF로 한 번에. '설정'에서 순모임 보고서를 PDF로 만들어 간사님께 보내요.">
+<p>설정 → 기록 설정 → <b>순모임 보고서 내보내기</b>를 누르면 한 주의 순모임 출석과 나눔, 기도제목을 PDF로 만들어요. 다 만든 PDF는 미리보기에서 확인하고 카카오톡·메일 등으로 바로 보낼 수 있어요.</p>
+
+<h3 id="settings-report-pick">보고서 내용 고르기</h3>
+<img src="cards/21_report_pick.png" width="1080" height="2340" loading="lazy" alt="넣을 내용만 골라요. 주를 옮겨 고르고, 빼고 싶은 항목은 체크를 풀어요. 체크를 푼 내용은 PDF에 들어가지 않아요.">
+<ul>
+<li>위쪽 ‹ › 로 주를 옮겨요.</li>
+<li><b>제목</b>은 PDF 맨 위와 보낼 때 이름으로 쓰여요.</li>
+<li>모임마다 적은 특이사항과 기도제목이 체크 목록으로 나와요. 간사님께 굳이 알릴 필요 없는 개인적인 내용은 체크를 풀어 빼 주세요.</li>
+</ul>
+
+<h3 id="settings-prayer">기도제목 PDF</h3>
+<img src="cards/22_prayer_pdf.png" width="1080" height="2340" loading="lazy" alt="기도제목을 모아 나눠요. 한 주의 기도제목을 골라 PDF로 만들어요. 메모는 넣을지 말지 고를 수 있어요.">
+<p>설정 → 기록 설정 → <b>순 기도제목 내보내기</b>. 순원들과 함께 기도할 제목을 PDF로 만들어요.</p>
+<ul>
+<li><b>이번 주</b>: 그 주에 적은 기도제목</li>
+<li><b>계속 기도 중</b>: 이전에 나온 기도제목 중 아직 함께 기도할 것만 골라 넣어요.</li>
+<li><b>기도 메모 함께 담기</b>: 끄면 제목만 들어가요. 순원 전체와 나눌 때는 메모를 빼는 것이 안전해요.</li>
+</ul>
+
+<h3 id="settings-backup">백업이 필요한 이유</h3>
+<img src="cards/23_backup.png" width="1080" height="2340" loading="lazy" alt="기록은 내 폰에만 있어요. 서버에 따로 저장되지 않아요. 폰을 잃어버리면 기록도 사라지니 가끔 백업해 두세요.">
+<p>함께지음은 회원가입도 서버도 없어요. 기록은 이 폰 안에만 있어서 밖으로 새지 않지만, 폰을 잃어버리거나 앱을 지우면 함께 사라져요. 한 달에 한 번쯤 백업 파일을 만들어 두세요.</p>
+
+<h3 id="settings-export">백업 파일 내보내기</h3>
+<img src="cards/24_backup_export.png" width="1080" height="2340" loading="lazy" alt="백업 파일을 내보내요. '비밀번호로 잠그기'를 고르면 파일을 열 때 비밀번호가 필요해요. 카톡 나와의 채팅이나 드라이브에 보관하세요.">
+<ol>
+<li>설정 → <b>백업 및 복원</b> → <b>백업 파일 내보내기</b></li>
+<li><b>비밀번호로 잠그기</b>를 고르고 비밀번호를 두 번 넣어요. (잠그지 않고 내보낼 수도 있어요.)</li>
+<li>공유 창에서 카카오톡 나와의 채팅, 드라이브, 메일 등에 저장해요.</li>
+</ol>
+<p class="tip">비밀번호를 잊으면 그 백업 파일은 아무도 열 수 없어요. 잘 기억해 두세요. 잠그지 않은 파일은 받은 사람 누구나 열 수 있으니 다른 사람에게 보내지 마세요.</p>
+<p>파일 저장이 어려우면 <b>백업 문자열 복사</b>로 글자 형태의 백업을 복사해 메모 앱 등에 붙여 둘 수 있어요. 되살릴 때는 <b>백업 문자열 복원</b>에 붙여 넣어요.</p>
+
+<h3 id="settings-restore">새 폰에서 가져오기</h3>
+<img src="cards/25_backup_restore.png" width="1080" height="2340" loading="lazy" alt="새 폰에서는 가져오기. 새 폰에 앱을 깔고 설정 → 백업 및 복원 → '백업 파일 가져오기'. 그 폰에 있던 기록은 백업 내용으로 바뀌어요.">
+<ol>
+<li>새 폰에 함께지음을 설치해요.</li>
+<li>설정 → <b>백업 및 복원</b> → <b>백업 파일 가져오기</b>에서 저장해 둔 파일을 골라요.</li>
+<li>잠근 백업이면 비밀번호를 넣어요.</li>
+<li>'기존 기록을 지우고 복원할까요?'에서 개수를 확인하고 복원해요.</li>
+</ol>
+<p class="tip">복원하면 그 폰에 있던 공간·순원·기록이 모두 지워지고 백업 내용으로 바뀌어요. 그 폰의 기록이 더 최신이라면 먼저 그 폰에서 백업을 하나 더 만들어 두세요.</p>
+
+<h3 id="settings-lock">앱 잠금과 개인정보</h3>
+<img src="cards/26_app_lock.png" width="1080" height="2340" loading="lazy" alt="앱 잠금으로 한 번 더. 6자리 잠금 번호를 정하면 앱을 열 때마다 물어요. 번호를 잊으면 다시 깔아야 하니 백업 먼저!">
+<ul>
+<li><b>앱 잠금</b>: 켜고 6자리 숫자를 두 번 넣어요. 그다음부터 앱을 열 때 번호를 물어요. 폰에서 지원하면 <b>지문·얼굴로 열기</b>도 쓸 수 있어요. 번호를 여러 번 틀리면 잠시 기다려야 해요.</li>
+<li><b>잠금 번호 바꾸기</b>: 잠금을 켠 뒤에 보여요.</li>
+<li><b>알림에 이름 숨기기</b>: 잠금 화면에 뜨는 생일·돌봄 알림에 순원 이름 대신 안내만 보여요. 다른 사람이 폰 화면을 볼 수 있을 때 켜 두세요.</li>
+<li><b>개인정보 안내</b>: 순원의 이야기를 다룰 때 지켜야 할 것을 정리했어요. 들은 이야기를 다른 사람에게 옮기지 않기, 백업 파일과 PDF 조심하기, 지워 달라고 하면 지워 주기 등이에요.</li>
+</ul>
+<p class="tip">잠금 번호를 잊으면 앱을 지우고 다시 깔아야 하고, 그러면 기록도 함께 사라져요. 잠금을 켜기 전에 꼭 백업을 만들어 두세요.</p>
+
+<h3 id="settings-info">앱 정보</h3>
+<ul>
+<li><b>개인정보처리방침</b>: 브라우저에서 열려요.</li>
+<li><b>이용 가이드</b>: 지금 보고 있는 이 페이지예요.</li>
+<li><b>업데이트 소식</b>: 버전마다 바뀐 점을 볼 수 있어요. 업데이트한 뒤 처음 열 때도 한 번 보여요.</li>
+</ul>
+<a class="top" href="#top">↑ 목차로</a>
+
+<!-- FAQ ------------------------------------------------------------- -->
+<h2 id="faq">7. 자주 묻는 질문</h2>
+<h3>순장님이나 간사님도 내 기록을 볼 수 있나요?</h3>
+<p>아니요. 기록은 내 폰에만 있고 어디로도 보내지 않아요. 보고서 PDF나 백업 파일을 직접 보냈을 때만 그 내용이 전달돼요.</p>
+<h3>폰을 바꾸면 어떻게 하나요?</h3>
+<p>옛 폰에서 <a href="#settings-export">백업 파일 내보내기</a> → 새 폰에서 <a href="#settings-restore">백업 파일 가져오기</a>를 하면 그대로 옮겨져요.</p>
+<h3>알림이 안 와요.</h3>
+<p>설정 → 알림 설정이 켜져 있는지, 폰 설정 → 알림에서 함께지음이 허용돼 있는지 확인하고 <b>테스트 알림</b>을 눌러 보세요. 알림은 생일과 '확인 예정일'을 정한 항목에만 와요.</p>
+<h3>순원이 기록을 지워 달라고 해요.</h3>
+<p>순원 상세 → 오른쪽 위 점 세 개 → <b>삭제</b>를 누르면 그 순원과 관련된 기록이 모두 지워져요. 예전에 만든 백업 파일과 보낸 PDF에도 남아 있을 수 있으니 함께 지워 주세요.</p>
+<h3>돈이 드나요?</h3>
+<p>아니요. 모든 기능이 무료이고 광고도 없어요.</p>
+
+<p style="margin-top:48px">더 궁금한 점은 <a href="mailto:wnshroqkf@naver.com">wnshroqkf@naver.com</a> 으로 물어봐 주세요.</p>
 </main></body>
 </html>
